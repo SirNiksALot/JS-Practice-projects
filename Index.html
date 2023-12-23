@@ -1,0 +1,97 @@
+<!DOCTYPE html>     
+<HTML>
+    <head>
+        <meta name="viewport" contents="width=device-width,initial-scale=1.0">
+        <title>
+            Simple Weather App
+        </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="card">
+            <div class="search">
+                <input type="text" placeholder="Enter city name" spellcheck="false">
+                <button>
+                    <img src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\search-interface-symbol.png">
+                </button>
+            </div>
+            <div class="weather">
+                <img src="Images/rainy.png" class="weather-icon">
+                <h1 class="temp">-</h1>
+                <h2 class="city">Enter the city</h2>
+                <div class="details">
+                    <div class="col">
+                        <img src="Images/humidity.png">
+                        <div>
+                            <p class="humidity">
+                                -             
+                            </p>
+                             <p>
+                                Humidity
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img src="Images/wind.png">
+                        <div>
+                            <p class="wind">
+                                -             
+                            </p>
+                            <p>
+                                Wind speed
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            const apiKey="b62c6668a86f7f1c947f81aaf8ab1e62";
+            const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+            //we added " ?units=metric " additionally to the URL because we need the weather data in the metric system which is not ON by default 
+            const searchBox = document.querySelector(".search input");
+            const searchBtn = document.querySelector(".search button");
+
+            const weatherIcon= document.querySelector(".weather-icon");
+
+
+            async function checkWeather(city){
+                const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+                var data = await response.json();
+                console.log(data);
+                document.querySelector(".city").innerHTML=data.name;
+                document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+" c";
+                document.querySelector(".humidity").innerHTML=data.main.humidity+" %";
+                document.querySelector(".wind").innerHTML=data.wind.speed+" kmph";
+
+                if(data.weather[0].main == "Clouds"){
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\clouds.png";
+                }
+                else if(data.weather[0].main == "Clear"){
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\sun.png";
+                }
+                else if(data.weather[0].main == "Rain"){
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\rainy.png";
+                }
+                else if(data.weather[0].main == "Drizzle"){
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\drizzle.png";
+                }
+                else if(data.weather[0].main == "Mist"){
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\mist.png";
+                }
+
+
+            }
+
+            searchBtn.addEventListener("click",() => {
+                checkWeather(searchBox.value);
+            });
+
+            
+            
+
+        </script>
+
+    </body>
+</HTML>
