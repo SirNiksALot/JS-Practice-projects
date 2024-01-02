@@ -12,8 +12,11 @@
             <div class="search">
                 <input type="text" placeholder="Enter city name" spellcheck="false">
                 <button>
-                    <img src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\search-interface-symbol.png">
+                    <img src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\search-interface-symbol.png">
                 </button>
+            </div>
+            <div class="error">
+                <p>Invalid city name</p>
             </div>
             <div class="weather">
                 <img src="Images/rainy.png" class="weather-icon">
@@ -58,6 +61,11 @@
 
             async function checkWeather(city){
                 const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+                if(response.status==404){
+                    document.querySelector(".error").style.display="block";
+                    document.querySelector(".weather").style.display="none";
+                }
+                else{
                 var data = await response.json();
                 console.log(data);
                 document.querySelector(".city").innerHTML=data.name;
@@ -66,21 +74,24 @@
                 document.querySelector(".wind").innerHTML=data.wind.speed+" kmph";
 
                 if(data.weather[0].main == "Clouds"){
-                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\clouds.png";
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\clouds.png";
                 }
                 else if(data.weather[0].main == "Clear"){
-                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\sun.png";
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\sun.png";
                 }
                 else if(data.weather[0].main == "Rain"){
-                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\rainy.png";
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\rainy.png";
                 }
                 else if(data.weather[0].main == "Drizzle"){
-                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\drizzle.png";
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\drizzle.png";
                 }
                 else if(data.weather[0].main == "Mist"){
-                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple ass weather app\Images\mist.png";
+                    weatherIcon.src="C:\Users\Nikhil\Desktop\Desktop Files\Projects\JS Projects\Simple weather app\Images\mist.png";
                 }
 
+                document.querySelector(".weather").style.display="block";
+                }
+                
 
             }
 
